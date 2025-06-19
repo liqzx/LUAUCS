@@ -3,10 +3,595 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roblox Luau Cheat Sheet</title>
+    <title>Roblox Luau Master | Orange Dark Theme</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <style>
+        /* === Orange Dark Theme Variables === */
+        :root {
+            --primary: #ff7b25;
+            --primary-light: #ff9a57;
+            --primary-dark: #e56a1a;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #ffffff;
+            --gray: #a0a0a0;
+            --glass: rgba(30, 30, 30, 0.7);
+            --glass-border: rgba(255, 123, 37, 0.2);
+            --glow: 0 0 15px rgba(255, 123, 37, 0.3);
+            --font-main: 'Inter', sans-serif;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--darker);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* === Animated Background === */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(to bottom, var(--darker), #1a1a1a);
+        }
+
+        .particle {
+            position: absolute;
+            background-color: var(--primary);
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+
+        /* === Main Layout === */
+        .app-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+        }
+
+        /* === Sidebar === */
+        .sidebar {
+            background-color: var(--dark);
+            border-right: 1px solid rgba(255, 123, 37, 0.1);
+            padding: 2rem 1.5rem;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark);
+            font-weight: bold;
+        }
+
+        .logo-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.8rem 1rem 0.8rem 3rem;
+            background-color: var(--darker);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--light);
+            font-family: var(--font-main);
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: var(--glow);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+        }
+
+        .topic-list {
+            list-style: none;
+        }
+
+        .topic-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .topic-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 1rem;
+            color: var(--gray);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .topic-link:hover {
+            background-color: rgba(255, 123, 37, 0.1);
+            color: var(--light);
+        }
+
+        .topic-link.active {
+            background-color: rgba(255, 123, 37, 0.2);
+            color: var(--primary-light);
+        }
+
+        .topic-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 123, 37, 0.2);
+            border-radius: 6px;
+            color: var(--primary);
+        }
+
+        /* === Main Content === */
+        .main-content {
+            padding: 2rem 3rem;
+            overflow-y: auto;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .content-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-light);
+        }
+
+        /* === Code Cards === */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .code-card {
+            background-color: var(--dark);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+
+        .code-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--glow);
+            border-color: var(--primary);
+        }
+
+        .card-header {
+            padding: 1rem 1.5rem;
+            background-color: rgba(255, 123, 37, 0.1);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .card-icon {
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255, 123, 37, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .code-block {
+            padding: 1.5rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            background-color: var(--darker);
+            overflow-x: auto;
+        }
+
+        .token.comment {
+            color: #6a9955;
+            font-style: italic;
+        }
+
+        .token.keyword {
+            color: #569cd6;
+        }
+
+        .token.string {
+            color: #ce9178;
+        }
+
+        .token.number {
+            color: #b5cea8;
+        }
+
+        .token.function {
+            color: #dcdcaa;
+        }
+
+        .card-footer {
+            padding: 1rem 1.5rem;
+            background-color: var(--dark);
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        /* === Buttons === */
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 500;
+            font-family: var(--font-main);
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--darker);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255, 123, 37, 0.1);
+        }
+
+        /* === Playground === */
+        .playground {
+            background-color: var(--dark);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+
+        .playground-header {
+            padding: 1rem 1.5rem;
+            background-color: rgba(255, 123, 37, 0.1);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .playground-title {
+            font-weight: 600;
+            color: var(--primary-light);
+        }
+
+        .playground-actions {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .code-editor {
+            padding: 1.5rem;
+            background-color: var(--darker);
+        }
+
+        .code-input {
+            width: 100%;
+            min-height: 150px;
+            background-color: var(--dark);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Fira Code', monospace;
+            color: var(--light);
+            line-height: 1.6;
+            resize: vertical;
+            margin-bottom: 1rem;
+        }
+
+        .code-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: var(--glow);
+        }
+
+        .output-container {
+            background-color: var(--dark);
+            border-radius: 8px;
+            padding: 1rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .output-title {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--primary-light);
+        }
+
+        .output-content {
+            font-family: 'Fira Code', monospace;
+            min-height: 60px;
+            background-color: var(--darker);
+            padding: 0.8rem;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+
+        /* === AI Assistant === */
+        .ai-assistant {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 0 20px rgba(255, 123, 37, 0.5);
+            transition: var(--transition);
+        }
+
+        .ai-assistant:hover {
+            transform: scale(1.1);
+        }
+
+        .ai-panel {
+            position: fixed;
+            bottom: 5rem;
+            right: 2rem;
+            width: 350px;
+            max-height: 500px;
+            background-color: var(--dark);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 0 30px rgba(255, 123, 37, 0.3);
+            padding: 1.5rem;
+            z-index: 100;
+            transform: translateY(20px);
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ai-panel.active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .ai-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark);
+        }
+
+        .ai-title {
+            font-weight: 600;
+        }
+
+        .ai-messages {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+
+        .ai-message {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            border-radius: 8px;
+            background-color: var(--darker);
+        }
+
+        .ai-message.bot {
+            border-left: 3px solid var(--primary);
+        }
+
+        .ai-message.user {
+            background-color: rgba(255, 123, 37, 0.1);
+        }
+
+        .ai-input-container {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .ai-input {
+            flex: 1;
+            padding: 0.8rem;
+            background-color: var(--darker);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--light);
+            font-family: var(--font-main);
+        }
+
+        .ai-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .ai-send {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border: none;
+            border-radius: 8px;
+            color: var(--dark);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* === Responsive Design === */
+        @media (max-width: 1200px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1.5rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ai-panel {
+                width: calc(100% - 2rem);
+                right: 1rem;
+                bottom: 5.5rem;
+            }
+        }
+
+        /* === Animations === */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* === Initial State === */
+        .main-content {
+            display: none;
+        }
+
+        .main-content.active {
+            display: block;
+        }
+
+        .welcome-message {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: calc(100vh - 80px);
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .welcome-actions {
+            display: flex;
+            gap: 1rem;
+        }
+    </style>
 </head>
 <body>
     <!-- Animated Background -->
@@ -28,7 +613,7 @@
             
             <ul class="topic-list">
                 <li class="topic-item">
-                    <a href="topics/variables.html" class="topic-link">
+                    <a href="#" class="topic-link" data-topic="variables">
                         <div class="topic-icon">
                             <i class="fas fa-code"></i>
                         </div>
@@ -36,7 +621,7 @@
                     </a>
                 </li>
                 <li class="topic-item">
-                    <a href="topics/control-flow.html" class="topic-link">
+                    <a href="#" class="topic-link" data-topic="control-flow">
                         <div class="topic-icon">
                             <i class="fas fa-project-diagram"></i>
                         </div>
@@ -44,7 +629,7 @@
                     </a>
                 </li>
                 <li class="topic-item">
-                    <a href="topics/functions.html" class="topic-link">
+                    <a href="#" class="topic-link" data-topic="functions">
                         <div class="topic-icon">
                             <i class="fas fa-cogs"></i>
                         </div>
@@ -52,7 +637,7 @@
                     </a>
                 </li>
                 <li class="topic-item">
-                    <a href="topics/tables.html" class="topic-link">
+                    <a href="#" class="topic-link" data-topic="tables">
                         <div class="topic-icon">
                             <i class="fas fa-table"></i>
                         </div>
@@ -60,7 +645,7 @@
                     </a>
                 </li>
                 <li class="topic-item">
-                    <a href="topics/instances.html" class="topic-link">
+                    <a href="#" class="topic-link" data-topic="instances">
                         <div class="topic-icon">
                             <i class="fas fa-cube"></i>
                         </div>
@@ -68,7 +653,7 @@
                     </a>
                 </li>
                 <li class="topic-item">
-                    <a href="topics/events.html" class="topic-link">
+                    <a href="#" class="topic-link" data-topic="events">
                         <div class="topic-icon">
                             <i class="fas fa-bolt"></i>
                         </div>
@@ -79,20 +664,184 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="main-content">
+        <main class="main-content" id="welcome-content">
             <div class="welcome-message">
                 <h1 class="welcome-title">Roblox Luau Cheat Sheet</h1>
                 <p class="welcome-subtitle">Select a topic from the sidebar to explore Luau concepts with interactive examples and game development context.</p>
                 <div class="welcome-actions">
-                    <a href="topics/variables.html" class="btn btn-primary">
-                        <i class="fas fa-rocket"></i> Get Started
-                    </a>
-                    <a href="#" class="btn btn-outline">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-book"></i> Quick Start Guide
+                    </button>
+                    <button class="btn btn-outline">
                         <i class="fas fa-gamepad"></i> Game Examples
-                    </a>
+                    </button>
                 </div>
             </div>
         </main>
+
+        <!-- Topic Content Sections (hidden by default) -->
+        <main class="main-content" id="variables-content">
+            <div class="content-header">
+                <h1 class="content-title">Variables</h1>
+                <div>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-play"></i> Run All
+                    </button>
+                </div>
+            </div>
+            
+            <div class="cards-grid">
+                <!-- Variable Declaration -->
+                <div class="code-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-brackets-curly"></i>
+                        </div>
+                        <h3 class="card-title">Declaration</h3>
+                    </div>
+                    <div class="code-block">
+                        <code><span class="token keyword">local</span> playerName = <span class="token string">"Builder"</span> <span class="token comment">-- String</span>
+<span class="token keyword">local</span> health = <span class="token number">100</span> <span class="token comment">-- Number</span>
+<span class="token keyword">local</span> isAlive = <span class="token keyword">true</span> <span class="token comment">-- Boolean</span>
+<span class="token keyword">local</span> inventory = {} <span class="token comment">-- Table</span>
+<span class="token keyword">local</span> weapon = <span class="token keyword">nil</span> <span class="token comment">-- Nil</span></code>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-play"></i> Run
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Type Inference -->
+                <div class="code-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-arrows-alt-h"></i>
+                        </div>
+                        <h3 class="card-title">Type Inference</h3>
+                    </div>
+                    <div class="code-block">
+                        <code><span class="token comment">-- Basic type annotation</span>
+<span class="token keyword">local</span> playerName<span class="token keyword">:</span> <span class="token keyword">string</span> = <span class="token string">"Builder"</span>
+
+<span class="token comment">-- Function with type annotations</span>
+<span class="token keyword">local</span> <span class="token keyword">function</span> add(a<span class="token keyword">:</span> <span class="token keyword">number</span>, b<span class="token keyword">:</span> <span class="token keyword">number</span>)<span class="token keyword">:</span> <span class="token keyword">number</span>
+    <span class="token keyword">return</span> a + b
+<span class="token keyword">end</span>
+
+<span class="token comment">-- Roblox instance types</span>
+<span class="token keyword">local</span> part<span class="token keyword">:</span> <span class="token keyword">Part</span> = <span class="token function">Instance.new</span>(<span class="token string">"Part"</span>)</code>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-play"></i> Run
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Game Example -->
+                <div class="code-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3 class="card-title">Game Example</h3>
+                    </div>
+                    <div class="code-block">
+                        <code><span class="token comment">-- Player stats in an RPG</span>
+<span class="token keyword">local</span> player = {
+    name = <span class="token string">"Wizard"</span>,
+    level = <span class="token number">5</span>,
+    health = <span class="token number">100</span>,
+    maxHealth = <span class="token number">100</span>,
+    inventory = {
+        <span class="token string">"Sword"</span>,
+        <span class="token string">"Health Potion"</span>,
+        <span class="token string">"Magic Scroll"</span>
+    }
+}
+
+<span class="token comment">-- Access and modify values</span>
+player.health = player.maxHealth <span class="token comment">-- Full heal</span>
+<span class="token function">table.insert</span>(player.inventory, <span class="token string">"Shield"</span>)</code>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-play"></i> Run
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Scope Example -->
+                <div class="code-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <h3 class="card-title">Scope</h3>
+                    </div>
+                    <div class="code-block">
+                        <code><span class="token keyword">local</span> globalVar = <span class="token string">"I'm global"</span> <span class="token comment">-- Avoid this!</span>
+
+<span class="token keyword">local</span> <span class="token keyword">function</span> example()
+    <span class="token keyword">local</span> localVar = <span class="token string">"I'm local"</span> <span class="token comment">-- Preferred</span>
+    
+    <span class="token keyword">if</span> <span class="token keyword">true</span> <span class="token keyword">then</span>
+        <span class="token keyword">local</span> blockVar = <span class="token string">"Block scope"</span>
+        <span class="token function">print</span>(blockVar) <span class="token comment">-- Works</span>
+    <span class="token keyword">end</span>
+    
+    <span class="token function">print</span>(blockVar) <span class="token comment">-- Error: nil</span>
+<span class="token keyword">end</span></code>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-play"></i> Run
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Interactive Playground -->
+            <div class="playground">
+                <div class="playground-header">
+                    <h3 class="playground-title">Interactive Playground</h3>
+                    <div class="playground-actions">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-play"></i> Run
+                        </button>
+                    </div>
+                </div>
+                <div class="code-editor">
+                    <textarea class="code-input" spellcheck="false">-- Edit this code and click Run
+local message = "Hello, Roblox!"
+print(message)</textarea>
+                    <div class="output-container">
+                        <h4 class="output-title">Output:</h4>
+                        <div class="output-content">Hello, Roblox!</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Other topic content sections would go here (control-flow-content, functions-content, etc.) -->
+        
     </div>
     
     <!-- AI Assistant -->
@@ -100,7 +849,233 @@
         <i class="fas fa-robot"></i>
     </div>
     
-    <script src="assets/js/particles.js"></script>
-    <script src="assets/js/main.js"></script>
+    <div class="ai-panel">
+        <div class="ai-header">
+            <div class="ai-icon">
+                <i class="fas fa-robot"></i>
+            </div>
+            <h3 class="ai-title">Luau AI Assistant</h3>
+        </div>
+        <div class="ai-messages">
+            <div class="ai-message bot">
+                Hello! I'm your Luau AI assistant. Ask me anything about Roblox scripting!
+            </div>
+        </div>
+        <div class="ai-input-container">
+            <input type="text" class="ai-input" placeholder="Ask about Luau...">
+            <button class="ai-send">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // === Particle Background ===
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = Math.floor(window.innerWidth / 10);
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random properties
+                const size = Math.random() * 5 + 2;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 5;
+                const duration = Math.random() * 10 + 10;
+                const opacity = Math.random() * 0.3 + 0.1;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.opacity = opacity;
+                
+                container.appendChild(particle);
+                
+                // Animate particle
+                gsap.to(particle, {
+                    y: Math.random() * 100 - 50,
+                    x: Math.random() * 100 - 50,
+                    duration: duration,
+                    delay: delay,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+            }
+        }
+
+        // === Topic Navigation ===
+        function setupTopicNavigation() {
+            const topicLinks = document.querySelectorAll('.topic-link');
+            const welcomeContent = document.getElementById('welcome-content');
+            const variablesContent = document.getElementById('variables-content');
+            
+            // Show welcome content by default
+            welcomeContent.classList.add('active');
+            
+            topicLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Update active state
+                    topicLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    
+                    // Hide all content sections
+                    document.querySelectorAll('.main-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Show selected content
+                    const topic = link.dataset.topic;
+                    if (topic === 'variables') {
+                        variablesContent.classList.add('active');
+                    } else {
+                        // In a real implementation, you would show other topic content here
+                        variablesContent.classList.add('active');
+                    }
+                    
+                    // Hide welcome message when a topic is selected
+                    welcomeContent.classList.remove('active');
+                });
+            });
+        }
+
+        // === AI Assistant ===
+        function setupAIAssistant() {
+            const assistant = document.querySelector('.ai-assistant');
+            const panel = document.querySelector('.ai-panel');
+            const sendBtn = document.querySelector('.ai-send');
+            const aiInput = document.querySelector('.ai-input');
+            const messagesContainer = document.querySelector('.ai-messages');
+            
+            // Simple responses for demo
+            const aiResponses = [
+                "In Luau, you can declare variables using the 'local' keyword for better scope control.",
+                "Control flow in Luau includes if-then-else statements, while loops, and for loops.",
+                "Functions are first-class citizens in Luau. You can declare them with 'local function' syntax.",
+                "Tables are Luau's only data structure, serving as both arrays and dictionaries.",
+                "Roblox Instances are objects that exist in the game hierarchy, like Parts and Scripts.",
+                "Events allow you to respond to actions in your game, like when a player touches something."
+            ];
+            
+            assistant.addEventListener('click', () => {
+                panel.classList.toggle('active');
+                
+                if(panel.classList.contains('active')) {
+                    gsap.from(panel, {
+                        duration: 0.3,
+                        y: 20,
+                        opacity: 0,
+                        ease: "power2.out"
+                    });
+                }
+            });
+            
+            function addMessage(text, isUser = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('ai-message');
+                messageDiv.classList.add(isUser ? 'user' : 'bot');
+                messageDiv.textContent = text;
+                messagesContainer.appendChild(messageDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+            
+            sendBtn.addEventListener('click', () => {
+                const question = aiInput.value.trim();
+                if(question) {
+                    addMessage(question, true);
+                    aiInput.value = '';
+                    
+                    // Simulate AI thinking
+                    setTimeout(() => {
+                        const randomResponse = aiResponses[Math.floor(Math.random() * aiResponses.length)];
+                        addMessage(randomResponse);
+                    }, 800);
+                }
+            });
+            
+            aiInput.addEventListener('keypress', (e) => {
+                if(e.key === 'Enter') {
+                    sendBtn.click();
+                }
+            });
+        }
+
+        // === Interactive Playground ===
+        function setupPlayground() {
+            const runBtn = document.querySelector('.playground .btn-primary');
+            const codeEditor = document.querySelector('.code-input');
+            const outputDiv = document.querySelector('.output-content');
+            const resetBtn = document.querySelector('.playground .btn-outline');
+            
+            runBtn.addEventListener('click', () => {
+                try {
+                    // Get code from editor
+                    let code = codeEditor.value;
+                    
+                    // Simple output for demo
+                    outputDiv.textContent = "Executing code...\n";
+                    
+                    // Simulate execution
+                    setTimeout(() => {
+                        if (code.includes('print')) {
+                            const matches = code.match(/print\((["'])(.*?)\1\)/);
+                            if (matches) {
+                                outputDiv.textContent = matches[2];
+                            } else {
+                                outputDiv.textContent = "Code executed (simulated)";
+                            }
+                        } else {
+                            outputDiv.textContent = "Code executed (simulated)";
+                        }
+                    }, 500);
+                } catch (error) {
+                    outputDiv.textContent = "Error: " + error.message;
+                }
+            });
+            
+            resetBtn.addEventListener('click', () => {
+                codeEditor.value = '-- Edit this code and click Run\nlocal message = "Hello, Roblox!"\nprint(message)';
+                outputDiv.textContent = "Hello, Roblox!";
+            });
+        }
+
+        // === Initialize Everything ===
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            setupTopicNavigation();
+            setupAIAssistant();
+            setupPlayground();
+            
+            // Animate elements on load
+            gsap.from('.sidebar', {
+                duration: 0.8,
+                x: -50,
+                opacity: 0,
+                ease: "power2.out"
+            });
+            
+            gsap.from('.welcome-message', {
+                duration: 0.6,
+                y: -20,
+                opacity: 0,
+                delay: 0.3,
+                ease: "power2.out"
+            });
+            
+            gsap.from('.ai-assistant', {
+                duration: 0.5,
+                scale: 0,
+                opacity: 0,
+                delay: 1.5,
+                ease: "back.out(1.7)"
+            });
+        });
+    </script>
 </body>
 </html>
