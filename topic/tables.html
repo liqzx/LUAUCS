@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tables - Roblox Luau Cheat Sheet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon">L</div>
+                <div class="logo-text">Luau</div>
+            </div>
+            
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search Luau...">
+            </div>
+            
+            <ul class="topic-list">
+                <li class="topic-item">
+                    <a href="../topics/variables.html" class="topic-link">
+                        <div class="topic-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <span>Variables</span>
+                    </a>
+                </li>
+                <li class="topic-item">
+                    <a href="../topics/control-flow.html" class="topic-link">
+                        <div class="topic-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <span>Control Flow</span>
+                    </a>
+                </li>
+                <li class="topic-item">
+                    <a href="../topics/functions.html" class="topic-link">
+                        <div class="topic-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <span>Functions</span>
+                    </a>
+                </li>
+                <li class="topic-item">
+                    <a href="../topics/tables.html" class="topic-link active">
+                        <div class="topic-icon">
+                            <i class="fas fa-table"></i>
+                        </div>
+                        <span>Tables</span>
+                    </a>
+                </li>
+                <li class="topic-item">
+                    <a href="../topics/instances.html" class="topic-link">
+                        <div class="topic-icon">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <span>Instances</span>
+                    </a>
+                </li>
+                <li class="topic-item">
+                    <a href="../topics/events.html" class="topic-link">
+                        <div class="topic-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <span>Events</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-header">
+                <h1 class="content-title">Tables</h1>
+                <div>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-play"></i> Run All
+                    </button>
+                </div>
+            </div>
+            
+            <div class="cards-grid">
+                <!-- Array-like Tables -->
+                <div class="code-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-list-ol"></i>
+                        </div>
+                        <h3 class="card-title">Array-like Tables</h3>
+                    </div>
+                    <div class="code-block">
+                        <code><span class="token comment">-- Creating an array</span>
+<span class="token keyword">local</span> weapons = {<span class="token string">"Sword"</span>, <span class="token string">"Bow"</span>, <span class="token string">"Axe"</span>}
+
+<span class="token comment">-- Accessing elements (1-based indexing)</span>
+<span class="token function">print</span>(weapons[<span class="token number">1</span>]) <span class="token comment">-- Output: Sword</span>
+
+<span class="token comment">-- Adding elements</span>
+weapons[<span class="token number">4</span>] = <span class="token string">"Dagger"</span>
+<span class="token function">table.insert</span>(weapons, <span class="token string">"Staff"</span>) <span class="token comment">-- Adds to end</span>
+
+<span class="token comment">-- Iterating</span>
+<span class="token keyword">for</span> i, weapon <span class="token keyword">in</span> <span class="token function">ipairs</span>(weapons) <span class="token keyword">do</span>
+    <span class="token function">print</span>(i .. <span class="token string">": "</span> .. weapon)
+<span class="token keyword">end</span></code>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-play"></i> Run
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Dictionary-like Tables -->
+                <div class="code-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <h3 class="card-title">Dictionary Tables</h3>
+                    </div>
+                    <div class="code-block">
+                        <code><span class="token comment">-- Creating a dictionary</span>
+<span class="token keyword">local</span> player = {
+    name = <span class="token string">"Builder"</span>,
+    health = <span class="token number">100</span>,
+    level = <span class="token number">5</span>,
+    inventory = {<span class="token string">"Sword"</span>, <span class="token string">"Potion"</span>}
+}
+
+<span class="token comment">-- Accessing values</span>
+<span class="token function">print</span>(player.name) <span class="token comment">-- Output: Builder</span>
+<span class="token function">print</span>(player[<span class="token string">"health"</span>]) <span class="token comment">-- Alternate syntax</span>
+
+<span class="token comment">-- Modifying values</span>
+player.health = player.health - <span class="token number">20</span>
+player.gold = <span class="token number">500</span> <span class="token comment">-- Adds new key</span>
+
+<span class="token comment">-- Iterating</span>
+<span class="token keyword">for</span> key, value <span class="token keyword">in</span> <span class="token function">pairs</span>(player) <span class="token keyword">do</span>
+    <span class="token function">print</span>(key .. <span class="token string">": "</span> .. <span class="token function">tostring</span>(value))
+<span class="token keyword">end</span></code>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-play"></i> Run
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Table Methods -->
+                <div class="code-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h3 class="card-title">Table Methods</h3>
+                    </div>
+                    <div class="code-block">
+                        <code><span class="token keyword">local</span> items = {<span class="token string">"Sword"</span>, <span class="token string">"Shield"</span>, <span class="token string">"Potion"</span>}
+
+<span class="token comment">-- table.insert (add element)</span>
+<span class="token function">table.insert</span>(items, <span class="token string">"Key"</span>) <span class="token comment">-- Adds to end</span>
+<span class="token function">table.insert</span>(items, <span class="token number">2</span>, <span class="token string">"Armor"</span>) <span class="token comment">-- Inserts at position 2</span>
+
+<span class="token comment">-- table.remove (remove element)</span>
+<span class="token function">table.remove</span>(items, <span class="token number">1</span>) <span class="token comment">-- Removes first item</span>
+
+<span class="token comment">-- table.sort (sort elements)</span>
+<span class="token function">table.sort</span>(items) <span class="token comment">-- Alphabetical order</span>
+
+<span class="token comment">-- table.concat (join strings)</span>
+<span class="token keyword">local</span> joined = <span class="token function">table.concat</span>(items, <span class="token string">", "</span>)
+<span class="token function">print</span>(joined) <span class="token comment">-- Output: Armor, Potion, Shield, Key</span></code>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-play"></i> Run
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Nested Tables -->
+                <div class="code-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <h3 class="card-title">Nested Tables</h3>
+                    </div>
+                    <div class="code-block">
+                        <code><span class="token comment">-- Game inventory system</span>
+<span class="token keyword">local</span> inventory = {
+    weapons = {
+        {name = <span class="token string">"Sword"</span>, damage = <span class="token number">15</span>},
+        {name = <span class="token string">"Bow"</span>, damage = <span class="token number">10</span>}
+    },
+    consumables = {
+        {name = <span class="token string">"Health Potion"</span>, effect = <span class="token string">"Restores 50 HP"</span>},
+        {name = <span class="token string">"Mana Potion"</span>, effect = <span class="token string">"Restores 30 MP"</span>}
+    },
+    gold = <span class="token number">250</span>
+}
+
+<span class="token comment">-- Accessing nested data</span>
+<span class="token function">print</span>(inventory.weapons[<span class="token number">1</span>].name) <span class="token comment">-- Output: Sword</span>
+
+<span class="token comment">-- Adding to nested table</span>
+<span class="token function">table.insert</span>(inventory.consumables, {
+    name = <span class="token string">"Stamina Potion"</span>, 
+    effect = <span class="token string">"Restores 40 Stamina"</span>
+})
+
+<span class="token comment">-- Complex iteration</span>
+<span class="token keyword">for</span> category, items <span class="token keyword">in</span> <span class="token function">pairs</span>(inventory) <span class="token keyword">do</span>
+    <span class="token keyword">
