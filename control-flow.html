@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Flow - Roblox Luau Cheat Sheet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon">L</div>
+                <div class="logo-text">Luau</div>
+            </div>
+            
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search Luau...">
+            </div>
+            
+            <ul class="topic-list">
+                <li class="topic-item">
+                    <a href="../topics/variables.html" class="topic-link">
+                        <div class="topic-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <span>Variables</span>
+                    </a>
+                </li>
+                <li class="topic-item">
+                    <a href="../topics/control-flow.html" class="topic-link active">
+                        <div class="topic-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <span>Control Flow</span>
+                    </a>
+                </li>
+                <li class="topic-item">
+                    <a href="../topics/functions.html" class="topic-link">
+                        <div class="topic-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <span>Functions</span>
+                    </a>
+                </li>
+                <li class="topic-item">
+                    <a href="../topics/tables.html" class="topic-link">
+                        <div class="topic-icon">
+                            <i class="fas fa-table"></i>
+                        </div>
+                        <span>Tables</span>
+                    </a>
+                </li>
+                <li class="topic-item">
+                    <a href="../topics/instances.html" class="topic-link">
+                        <div class="topic-icon">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <span>Instances</span>
+                    </a>
+                </li>
+                <li class="topic-item">
+                    <a href="../topics/events.html" class="topic-link">
+                        <div class="topic-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <span>Events</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-header">
+                <h1 class="content-title">Control Flow</h1>
+                <div>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-play"></i> Run All
+                    </button>
+                </div>
+            </div>
+            
+            <div class="cards-grid">
+                <!-- If Statements -->
+                <div class="code-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-question"></i>
+                        </div>
+                        <h3 class="card-title">If Statements</h3>
+                    </div>
+                    <div class="code-block">
+                        <code><span class="token keyword">local</span> health = <span class="token number">75</span>
+
+<span class="token keyword">if</span> health < <span class="token number">20</span> <span class="token keyword">then</span>
+    <span class="token function">print</span>(<span class="token string">"Low health warning!"</span>)
+<span class="token keyword">elseif</span> health < <span class="token number">50</span> <span class="token keyword">then</span>
+    <span class="token function">print</span>(<span class="token string">"Health is getting low"</span>)
+<span class="token keyword">else</span>
+    <span class="token function">print</span>(<span class="token string">"Health is good"</span>)
+<span class="token keyword">end</span></code>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-play"></i> Run
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- While Loops -->
+                <div class="code-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-redo"></i>
+                        </div>
+                        <h3 class="card-title">While Loops</h3>
+                    </div>
+                    <div class="code-block">
+                        <code><span class="token comment">-- Countdown timer</span>
+<span class="token keyword">local</span> count = <span class="token number">5</span>
+
+<span class="token keyword">while</span> count > <span class="token number">0</span> <span class="token keyword">do</span>
+    <span class="token function">print</span>(<span class="token string">"Countdown: "</span> .. count)
+    count -= <span class="token number">1</span>
+    <span class="token function">wait</span>(<span class="token number">1</span>) <span class="token comment">-- Wait 1 second</span>
+<span class="token keyword">end</span>
+
+<span class="token function">print</span>(<span class="token string">"Blast off!"</span>)</code>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-play"></i> Run
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- For Loops -->
+                <div class="code-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-arrows-alt-h"></i>
+                        </div>
+                        <h3 class="card-title">For Loops</h3>
+                    </div>
+                    <div class="code-block">
+                        <code><span class="token comment">-- Numeric for loop</span>
+<span class="token keyword">for</span> i = <span class="token number">1</span>, <span class="token number">5</span> <span class="token keyword">do</span>
+    <span class="token function">print</span>(<span class="token string">"Spawning enemy #"</span> .. i)
+<span class="token keyword">end</span>
+
+<span class="token comment">-- With step value</span>
+<span class="token keyword">for</span> i = <span class="token number">10</span>, <span class="token number">0</span>, -<span class="token number">2</span> <span class="token keyword">do</span>
+    <span class="token function">print</span>(i)
+<span class="token keyword">end</span></code>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-play"></i> Run
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Repeat Until -->
+                <div class="code-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <h3 class="card-title">Repeat Until</h3>
+                    </div>
+                    <div class="code-block">
+                        <code><span class="token comment">-- Game loop example</span>
+<span class="token keyword">local</span> gameOver = <span class="token keyword">false</span>
+<span class="token keyword">local</span> playerHealth = <span class="token number">100</span>
+
+<span class="token keyword">repeat</span>
+    <span class="token comment">-- Game logic here</span>
+    playerHealth -= <span class="token number">10</span>
+    <span class="token function">print</span>(<span class="token string">"Player health: "</span> .. playerHealth)
+    
+    <span class="token keyword">if</span> playerHealth <= <span class="token number">0</span> <span class="token keyword">then</span>
+        gameOver = <span class="token keyword">true</span>
+    <span class="token keyword">end</span>
+    
+    <span class="token function">wait</span>(<span class="token number">1</span>)
+<span class="token keyword">until</span> gameOver
+
+<span class="token function">print</span>(<span class="token string">"Game over!"</span>)</code>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-play"></i> Run
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Interactive Playground -->
+            <div class="playground">
+                <div class="playground-header">
+                    <h3 class="playground-title">Interactive Playground</h3>
+                    <div class="playground-actions">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-play"></i> Run
+                        </button>
+                    </div>
+                </div>
+                <div class="code-editor">
+                    <textarea class="code-input" spellcheck="false">-- Try a control flow example
+local score = 85
+
+if score >= 90 then
+    print("Grade: A")
+elseif score >= 80 then
+    print("Grade: B")
+else
+    print("Study harder!")
+end</textarea>
+                    <div class="output-container">
+                        <h4 class="output-title">Output:</h4>
+                        <div class="output-content">Grade: B</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- AI Assistant -->
+    <div class="ai-assistant floating">
+        <i class="fas fa-robot"></i>
+    </div>
+    
+    <div class="ai-panel">
+        <div class="ai-header">
+            <div class="ai-icon">
+                <i class="fas fa-robot"></i>
+            </div>
+            <h3 class="ai-title">Luau AI Assistant</h3>
+        </div>
+        <div class="ai-messages">
+            <div class="ai-message bot">
+                Ask me about control flow in Luau - if statements, loops, and more!
+            </div>
+        </div>
+        <div class="ai-input-container">
+            <input type="text" class="ai-input" placeholder="Ask about control flow...">
+            <button class="ai-send">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <script src="../assets/js/particles.js"></script>
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>
